@@ -1,0 +1,95 @@
+# DAY 1
+
+def increaseCounter(arr)
+    counter = 0
+    for i in 0..arr.length
+        arr[i] = arr[i].to_i
+    end
+    puts arr[0].class
+    for i in 1...arr.length
+        if arr[i-1] < arr[i]
+            counter += 1
+        end
+        i += 1    
+    end
+    puts counter
+end
+
+#arr = File.readlines('inputDay1.txt')
+# puts increaseCounter(arr)
+
+def increaseWindowCounter(arr)
+    for i in 0..arr.length
+        arr[i] = arr[i].to_i
+    end
+
+    counter = 0
+    pointer = 1
+    
+    firstSum = arr[pointer - 1] + arr[pointer] + arr[pointer + 1]
+
+    while pointer < arr.length - 2
+        secondSum = arr[pointer] + arr[pointer + 1] + arr[pointer + 2]
+        if firstSum < secondSum 
+            counter += 1
+        end
+        pointer += 1
+        firstSum = secondSum
+    end
+    puts counter
+end
+
+#puts increaseWindowCounter(arr)
+
+# DAY 2
+
+def product(arr)
+    depth = 0
+    horizontal = 0
+
+    for i in 0...arr.length
+        
+        split = arr[i].split(" ")
+        word = split[0]
+        number = split[1].to_i
+        if word == 'forward'
+            horizontal += number
+        elsif word == 'down'
+            depth += number
+        else 
+            depth -= number
+        end
+
+    end
+
+    puts depth*horizontal
+end
+
+def product2(arr)
+    depth = 0
+    horizontal = 0
+    aim = 0
+
+    for i in 0...arr.length
+        
+        split = arr[i].split(" ")
+        word = split[0]
+        number = split[1].to_i
+        if word == 'forward'
+            horizontal += number
+            depth += aim*number
+        elsif word == 'down'
+            aim += number
+        else 
+            aim -= number
+        end
+
+    end
+
+    puts depth*horizontal
+end
+
+#arr = File.readlines('inputDay2.txt')
+#product2(arr)
+
+

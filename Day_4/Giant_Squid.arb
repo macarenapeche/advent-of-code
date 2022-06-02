@@ -1,0 +1,90 @@
+arr = File.read('input.txt').split("\n\n")
+numbers = arr.shift.split(",")
+
+arr = arr.map { |row| row.split("\n").map { |col| col.split(" ")} }
+
+
+
+def checkLine(i, row, hash)
+    (0...5).each { |j| return false if !hash.has_key?([i, row, j])}
+    return i
+end
+
+def checkCol(i, col, hash)
+    (0...5).each { |j| return false if !hash.has_key?([i, j, col])}
+    return i
+end
+
+def checkCard(i, arr, hash)
+
+    bingo = false
+    (0...5).each { |j| bingo = checkLine(i, j, hash) if !bingo }
+
+    if bingo 
+        return bingo
+    else
+        (0...5).each { |j| bingo = checkCol(i, j, hash) if !bingo }
+
+        return bingo
+    end
+end
+
+def giantSquidBingo(numbers, arr)
+    selected = Hash.new
+    numbers.each { |num|
+        arr.each { |card|
+            (0...5).each { |row|
+                col = card[row].index(num)
+                selected[[arr.index(card), row, col]] = true if col
+            }
+        }
+
+        bingo = false 
+        if(numbers.index(num) >= 4)
+            arr.each { |card| bingo = checkCard(arr.index(card), arr, selected) if !bingo } 
+            if bingo
+                sum = 0
+                (0...5).each { |row|
+                    (0...5).each { |col| 
+                        sum += arr[bingo][row][col].to_i if !selected.has_key?([bingo, row, col])
+                    }
+                }
+
+                return sum * num.to_i
+            end
+        end
+    }
+end
+
+def giantSquidBingo2(numbers, arr)
+    selected = Hash.new
+    bingos = []
+    numbers.each { |num|
+        arr.each { |card|
+            (0...5).each { |row|
+                col = card[row].index(num)
+                selected[[arr.index(card), row, col]] = true if col
+            }
+
+            bingo = checkCard(arr.index(card), arr, selected)  
+            bingos << arr[bingo] if bingo && !bingos.include?(arr[bingo])
+        }
+
+        if bingos.length == arr.length
+            i = arr.index(bingos[99]) 
+            sum = 0
+            (0...5).each { |row|
+                (0...5).each { |col| 
+                    sum += arr[i][row][col].to_i if !selected.has_key?([i, row, col])
+                }
+            }
+            return sum * num.to_i
+         
+        end
+    }
+
+    return false
+end
+
+
+puts giantSquidBingo2(numbers, arr)
