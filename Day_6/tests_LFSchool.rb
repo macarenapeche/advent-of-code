@@ -18,7 +18,7 @@ end
 
 
 def test_lanternfish_count
-  initial = File.read('inputDay6.txt', chomp: true).split(",").map { |item| item.to_i }
+  initial = File.read('input.txt', chomp: true).split(",").map { |item| item.to_i }
   assert_equal(initial.count) { LFSchool.new(initial).lanternfish_count(0) }
   assert_equal(386536) { LFSchool.new(initial).lanternfish_count(80) }
 end

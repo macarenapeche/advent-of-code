@@ -10,8 +10,8 @@ def test_lanternfish_initialize
 end
 
 def test_lanternfish_status
-  assert_equal("  Has 8 by default", 8) { Lanternfish.new.status }
-  assert_equal("  Has 4 if assigned", 4) { Lanternfish.new(4).status }
+  assert_equal(8) { Lanternfish.new.status }
+  assert_equal(4) { Lanternfish.new(4).status }
   # assert_equal(0) { Lanternfish.new(0).status } 
 end
 
